@@ -14,7 +14,7 @@ We researched standardized SAP ERP material movements and plant maintenance logs
 * **Unit Chaos:** Units of measurement are entered by local facility operators, resulting in non-standardized variations for identical metrics.
 
 ### 1.3. What Our Sample Data Looks Like & Why
-* **Associated Files:** `sources/FuelConsumption.csv` (production) and `sources/sap_fuel_inconsistent_sample.csv` (inconsistent).
+* **Associated Files:** `../sources/FuelConsumption.csv` (production) and `../sources/sap_fuel_inconsistent_sample.csv` (inconsistent).
 * **Structure:** Includes German column headers and highly inconsistent units (`L`, `ltr`, `Litres`, `liters`, `Lt`, `LTRS`).
 * **Why:** Demonstrates that the backend can dynamically translate localized headers, normalize diverse unit strings to `liters`, and flag negative consumption or empty data values without crashing.
 
@@ -34,7 +34,7 @@ We researched green button XML files, utility invoice PDFs exported as CSV sprea
 * **Adjustments:** Utilities regularly issue retro-active billing corrections, manifesting as negative consumption adjustments in subsequent months.
 
 ### 2.3. What Our Sample Data Looks Like & Why
-* **Associated Files:** `sources/electricity.csv` (production) and `sources/utility_inconsistent_sample.csv` (inconsistent).
+* **Associated Files:** `../sources/electricity.csv` (production) and `../sources/utility_inconsistent_sample.csv` (inconsistent).
 * **Structure:** Rows contain `MeterID`, `Facility`, `BillingStart`, `BillingEnd`, `Consumption`, and `Unit`.
 * **Why:** Validates the system's ability to handle overlapping date ranges, normalize mixed power units (`kWh`, `KWH`, `kwh`, `KW-H`) into the standard database code `kWh`, and catch negative adjustment anomalies.
 
@@ -54,7 +54,7 @@ We researched travel booking agency reports (e.g. Amex Global Business Travel, S
 * **Cabin Multipliers:** Emissions vary heavily by travel cabin class (Business class accounts for a higher carbon footprint share than Economy).
 
 ### 3.3. What Our Sample Data Looks Like & Why
-* **Associated Files:** `sources/customerBooking.csv` (production) and `sources/travel_inconsistent_sample.csv` (inconsistent).
+* **Associated Files:** `../sources/customerBooking.csv` (production) and `../sources/travel_inconsistent_sample.csv` (inconsistent).
 * **Structure:** Includes departure/arrival fields (`From`, `To`), cabin class (`Class`), and duration (`TravelDurationHours`).
 * **Why:** Tests travel class parsing (`Economy`, `Business`, `First`) and assesses how the engine handles bad route data (e.g. blank values or negative travel durations).
 

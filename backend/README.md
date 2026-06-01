@@ -38,30 +38,26 @@ Experience the live API: [Terralyt Backend](https://breatheesg-backend-tnlv.onre
 ## Folder Structure
 
 ```text
-backend/
-├── audit/                    # Security activity ledgers and delta state captures
-│   ├── models.py             # AuditLog model definition
-│   ├── views.py              # Audit log list views
-│   └── serializers.py        # Snapshot value serializers
-├── backend/                  # Core Django configurations
-│   ├── settings.py           # Database configurations and middleware
-│   └── urls.py               # Main URL routers mapping endpoints
-├── emissions/                # Carbon calculations and dashboards
-│   ├── models.py             # EmissionRecord model and calculation logic
-│   └── views.py              # Dashboard aggregates and details views
-├── ingestion/                # Data sources and CSV raw parsing logs
-│   ├── models.py             # DataSource and RawRecord models
-│   └── views.py              # File upload views
-├── review/                   # Verification workflows and auditing queues
-│   ├── models.py             # ReviewComment model
-│   └── views.py              # Review status and locking controls
-├── tenants/                  # Multi-tenant definitions and custom users
-│   ├── models.py             # Tenant, Custom User, and Facility models
-│   └── views.py              # Onboarding and facility creation endpoints
-├── sources/                  # Directory containing template CSV files
+Terralyt/
 ├── docs/                     # Architectural documents (MODEL.md, DECISIONS.md, etc.)
-├── manage.py                 # Django command-line execution entrypoint
-└── requirements.txt          # Python dependencies list
+├── sources/                  # Directory containing template CSV files
+├── backend/                  # Django backend workspace
+│   ├── audit/                # Security activity ledgers and delta state captures
+│   │   ├── models.py         # AuditLog model definition
+│   │   ├── views.py          # Audit log list views
+│   │   └── serializers.py    # Snapshot value serializers
+│   ├── backend/              # Core Django configurations (settings, urls)
+│   ├── emissions/            # Carbon calculations and dashboards
+│   │   ├── models.py         # EmissionRecord model and calculation logic
+│   │   └── views.py          # Dashboard aggregates and details views
+│   ├── ingestion/            # Data sources and CSV raw parsing logs
+│   │   ├── models.py         # DataSource and RawRecord models
+│   │   └── views.py          # File upload views
+│   ├── review/               # Verification workflows and auditing queues
+│   ├── tenants/              # Multi-tenant definitions and custom users
+│   ├── manage.py             # Django command-line execution entrypoint
+│   └── requirements.txt      # Python dependencies list
+└── frontend/                 # Frontend Vite React workspace
 ```
 
 ---
@@ -159,7 +155,7 @@ classDiagram
     EmissionRecord "1" --> "*" AuditLog : compliance history
 ```
 
-For a comprehensive explanation of our design models, please refer to the detailed **[MODEL.md](docs/MODEL.md)** documentation.
+For a comprehensive explanation of our design models, please refer to the detailed **[MODEL.md](../docs/MODEL.md)** documentation.
 
 ---
 
