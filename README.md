@@ -22,21 +22,59 @@ This repository contains both the **Django REST API Backend** and the **React + 
 
 ```text
 Terralyt/
-├── docs/                     # Architectural documents (MODEL.md, DECISIONS.md, etc.)
-├── sources/                  # Directory containing template CSV files
-├── backend/                  # Django backend workspace
-│   ├── audit/                # Security activity ledgers and delta state captures
-│   ├── backend/              # Core Django configurations
-│   ├── emissions/            # Carbon calculations and dashboards
-│   ├── ingestion/            # Data sources and CSV raw parsing logs
-│   ├── review/               # Verification workflows and auditing queues
-│   ├── tenants/              # Multi-tenant definitions and custom users
-│   ├── manage.py             # Django command-line execution entrypoint
-│   └── requirements.txt      # Python dependencies list
-└── frontend/                 # Frontend Vite React workspace
-    ├── src/                  # React components and client logic
-    ├── package.json          # Node dependencies list
-    └── vite.config.ts        # Vite build tool configuration
+├── docs/                             # Architectural documents (MODEL.md, DECISIONS.md, etc.)
+│   ├── MODEL.md                      # Details database models and validation rules
+│   ├── SOURCES.md                    # Specifications for SAP, utility, and travel data ingestion
+│   ├── DECISIONS.md                  # Records architectural design decisions
+│   └── TRADEOFFS.md                  # Analysis of tech debt, limits, and future goals
+├── sources/                          # Directory containing template CSV files
+│   ├── FuelConsumption.csv           # Ingestion sample for Scope 1 emissions
+│   ├── electricity.csv               # Ingestion sample for Scope 2 emissions
+│   └── customerBooking.csv           # Ingestion sample for Scope 3 travel emissions
+├── backend/                          # Django backend workspace
+│   ├── audit/                        # Append-only security activity logging
+│   │   ├── models.py                 # AuditLog model definition
+│   │   ├── serializers.py            # Audit snapshot serialization logic
+│   │   └── views.py                  # Activity ledger API endpoints
+│   ├── config/                       # Core Django project configurations
+│   │   ├── settings.py               # Main settings, middleware, database router configs
+│   │   ├── urls.py                   # Main URL routing entrypoint
+│   │   └── wsgi.py                   # Production web application gateway configuration
+│   ├── emissions/                    # GHG conversion engine and metrics dashboards
+│   │   ├── models.py                 # EmissionRecord model and conversion factors
+│   │   └── views.py                  # Analytical aggregation and dashboard statistics endpoints
+│   ├── ingestion/                    # Ingestion pipeline for processing uploaded spreadsheets
+│   │   ├── models.py                 # DataSource and RawRecord models
+│   │   └── views.py                  # File upload handlers and ingestion history endpoints
+│   ├── review/                       # Record verification queues and review workflows
+│   │   ├── models.py                 # ReviewComment model definitions
+│   │   └── views.py                  # State transition handlers (approve/reject/lock)
+│   ├── tenants/                      # Custom users, roles (Analyst/Reviewer), and facility scopes
+│   │   ├── models.py                 # Tenant, Facility, and CustomUser model definitions
+│   │   └── views.py                  # User authentication and registration endpoints
+│   ├── manage.py                     # Django administrative command execution script
+│   └── requirements.txt              # Backend library dependency manifest
+└── frontend/                         # Frontend Vite React workspace
+    ├── src/                          # React client application code
+    │   ├── components/               # Reusable UI component elements (cards, sidebar, layout)
+    │   ├── context/                  # Global Contexts (AuthContext, TenantContext)
+    │   ├── pages/                    # Main views of the Single-Page Application (SPA)
+    │   │   ├── Login.tsx             # Login workspace interface
+    │   │   ├── RegisterTenant.tsx    # Multi-tenant user onboarding registry
+    │   │   ├── Dashboard.tsx         # Analytical charts, scope metrics, and KPIs
+    │   │   ├── ReviewQueue.tsx       # Verification portal for auditing calculations
+    │   │   ├── UploadCenter.tsx      # File upload interface for CSV data ingestion
+    │   │   ├── UploadHistory.tsx     # Ingested logs and pipeline status dashboard
+    │   │   ├── Facilities.tsx        # Registry editor for offices and warehouses
+    │   │   ├── AuditLogs.tsx         # Append-only state delta comparison ledger
+    │   │   └── Settings.tsx          # Baseline target thresholds and emissions standards editor
+    │   ├── services/                 # Axios-based API client request dispatchers
+    │   ├── utils/                    # Common formatters, formulas, and helper scripts
+    │   ├── index.css                 # Global stylesheets and styling tokens
+    │   └── main.tsx                  # Application bootstrap entrypoint
+    ├── package.json                  # Node client dependency configuration manifest
+    ├── tailwind.config.js            # Styling build utility rules
+    └── tsconfig.json                 # TypeScript compiler layout configurations
 ```
 
 ---
