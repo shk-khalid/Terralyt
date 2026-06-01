@@ -11,6 +11,13 @@ This repository contains both the **Django REST API Backend** and the **React + 
 
 ---
 
+## Live Deployments
+
+[![Frontend Web App](https://img.shields.io/badge/Frontend_Web_App-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://terralyt.vercel.app/)  
+[![Backend API Gateway](https://img.shields.io/badge/Backend_API_Gateway-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://breatheesg-backend-tnlv.onrender.com)
+
+---
+
 ## Project Structure
 
 ```text
@@ -63,6 +70,30 @@ Terralyt/
 
 ---
 
+## Environment Variables
+
+### Backend Setup (`backend/.env`)
+Configure the following keys in a `.env` file within the `backend/` directory:
+```env
+DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
+SUPABASE_URL=https://<project_id>.supabase.co
+SUPABASE_KEY=<your_supabase_service_role_key>
+SUPABASE_BUCKET_NAME=uploads
+
+SECRET_KEY="your_django_secret_key"
+DEBUG=True
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+ALLOWED_HOSTS=localhost,127.0.0.1,breatheesg-backend-tnlv.onrender.com
+```
+
+### Frontend Setup (`frontend/.env`)
+Configure the following keys in a `.env` file within the `frontend/` directory:
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -90,13 +121,17 @@ Terralyt/
    pip install -r requirements.txt
    ```
 
-4. Create a `.env` file in the `backend/` directory:
+4. Create a `.env` file in the `backend/` directory (see the Environment Variables section above for details):
    ```env
-   SECRET_KEY=your_django_secret_key
-   DJANGO_DEBUG=True
-   DATABASE_URL=sqlite:///db.sqlite3
-   ALLOWED_HOSTS=localhost,127.0.0.1
-   CORS_ALLOWED_ORIGINS=http://localhost:5173
+   DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
+   SUPABASE_URL=https://<project_id>.supabase.co
+   SUPABASE_KEY=<your_supabase_service_role_key>
+   SUPABASE_BUCKET_NAME=uploads
+
+   SECRET_KEY="your_django_secret_key"
+   DEBUG=True
+   CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+   ALLOWED_HOSTS=localhost,127.0.0.1,breatheesg-backend-tnlv.onrender.com
    ```
 
 5. Run database migrations and start the server:
