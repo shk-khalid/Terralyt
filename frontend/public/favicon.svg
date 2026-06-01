@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Rounded corner background box matching the sidebar brand icon shape/color (esg-sage) -->
+  <rect width="32" height="32" rx="10" fill="#ccd5ae" />
+  <!-- The Leaf path matching Lucide Leaf icon (esg-dark) -->
+  <g transform="translate(6, 6) scale(0.833)" stroke="#1c2514" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 9.8a7 7 0 0 1-13.9.2" />
+    <path d="M9 22v-4h4" />
+  </g>
+</svg>

@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@utility focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-esg-sage focus-visible:ring-offset-2 focus-visible:ring-offset-esg-ivory;
+}
+
+@utility fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@layer base {
+  body {
+    @apply bg-esg-ivory text-esg-text antialiased font-sans min-h-screen selection:bg-esg-sage/30;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-esg-dark font-sans font-semibold tracking-tight;
+  }
+}
+
+/* Custom scrollbars matching the color palette */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccd5ae;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4a373;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

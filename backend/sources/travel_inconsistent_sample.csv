@@ -1,0 +1,9 @@
+EmployeeID,From,To,Class,Mode,TravelDurationHours
+EMP-101,BOM,DXB,Economy,Flight,3.2
+EMP-102,DEL,JFK,Business,Flight,14
+EMP-103,,LHR,Economy,Flight,9
+EMP-104,BLR,SIN,First,Flight,-2
+EMP-105,MAA,DXB,Economy,Flight,NULL
+EMP-106,BOM,DEL,Economy,Train,16
+EMP-107,HYD,CDG,Business,Flight,11
+EMP-108,CCU,,Economy,Flight,5

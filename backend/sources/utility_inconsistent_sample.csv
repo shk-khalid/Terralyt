@@ -1,0 +1,8 @@
+MeterID,Facility,BillingStart,BillingEnd,Consumption,Unit,Tariff
+MTR-1001,Mumbai Plant,2026-03-01,2026-03-31,5200,kWh,Industrial
+MTR-1002,Delhi Office,2026/03/01,2026/03/30,999999,KWH,Commercial
+MTR-1003,Chennai Hub,01.03.2026,31.03.2026,-500,kwh,Industrial
+MTR-1004,Pune Factory,15 Mar 2026,15 Apr 2026,7600,KW-H,Industrial
+MTR-1005,BLR Campus,2026-13-01,2026-03-31,4200,kWh,Commercial
+MTR-1006,Hyd Office,2026-03-05,2026-04-05,,kWh,Commercial
+MTR-1007,Ahmedabad Unit,2026-03-01,2026-03-31,3500,unknown,Industrial
