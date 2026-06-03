@@ -1,4 +1,4 @@
-# Terralyt (Breathe ESG)
+# Terralyt
 
 Terralyt is a multi-tenant Enterprise ESG (Environmental, Social, and Governance) management system designed to track, calculate, audit, and report greenhouse gas (GHG) emissions. The system allows organizations to import diverse consumption data, execute automated carbon footprint conversions based on international protocols, and verify records within a secured auditor review queue.
 
