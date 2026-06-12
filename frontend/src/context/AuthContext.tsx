@@ -28,6 +28,21 @@ const mapRole = (role: string): 'Analyst' | 'Auditor' | 'Administrator' => {
   return 'Analyst';
 };
 
+// Cookie management helpers
+const getCookie = (name: string): string | null => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[2]) : null;
+};
+
+const setCookie = (name: string, value: string, days: number) => {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax; Secure`;
+};
+
+const deleteCookie = (name: string) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; Secure`;
+};
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = React.useState<UserProfile | null>(null);
   const [accessToken, setAccessToken] = React.useState<string | null>(null);
@@ -60,17 +75,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   React.useEffect(() => {
     const initAuth = async () => {
       try {
-        // Attempt to get a new access token using credentials cookies
-        const { access } = await authService.refreshToken({});
+        const storedRefreshToken = getCookie('refresh_token');
+        if (!storedRefreshToken) {
+          throw new Error('No refresh token found in cookies');
+        }
+        // Attempt to get a new access token using stored refresh token
+        const { access } = await authService.refreshToken({ refresh: storedRefreshToken });
         setAccessToken(access);
         // Fetch user profile
         const profile = await authService.getCurrentUser(access);
         setUser(profile);
         syncWithZustandStore(profile);
       } catch (error) {
-        console.log('No active session cookies or failed session restoration');
+        console.log('No active session or failed session restoration:', error);
         setUser(null);
         syncWithZustandStore(null);
+        deleteCookie('refresh_token');
       }
       setLoading(false);
     };
@@ -81,6 +101,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const handleAuthSuccess = (data: AuthResponse) => {
     setUser(data.user);
     setAccessToken(data.access);
+    if (data.refresh) {
+      setCookie('refresh_token', data.refresh, 7);
+    }
     syncWithZustandStore(data.user);
   };
 
@@ -112,6 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(null);
       setAccessToken(null);
       syncWithZustandStore(null);
+      deleteCookie('refresh_token');
     }
   };
 
