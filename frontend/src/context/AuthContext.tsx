@@ -8,6 +8,7 @@ import {
   type CreateUserPayload
 } from '@/services/authService';
 import { useESGStore } from '@/store/esgStore';
+import { setApiToken } from '@/services/api';
 
 interface AuthContextType {
   user: UserProfile | null;
@@ -31,6 +32,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = React.useState<UserProfile | null>(null);
   const [accessToken, setAccessToken] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
+
+  // Sync token with Axios interceptor
+  React.useEffect(() => {
+    setApiToken(accessToken);
+  }, [accessToken]);
 
   // Sync session with Zustand store
   const syncWithZustandStore = (profile: UserProfile | null) => {

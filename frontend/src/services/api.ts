@@ -3,6 +3,12 @@ import { useESGStore } from '@/store/esgStore';
 import type { ESGRecord } from '@/type';
 
 // Configure Axios client matching enterprise setup
+let apiToken: string | null = null;
+
+export const setApiToken = (token: string | null) => {
+  apiToken = token;
+};
+
 export const esgAxiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
@@ -12,6 +18,19 @@ export const esgAxiosClient = axios.create({
     'Accept': 'application/json',
   }
 });
+
+// Request interceptor to automatically attach authorization header
+esgAxiosClient.interceptors.request.use(
+  (config) => {
+    if (apiToken) {
+      config.headers.Authorization = `Bearer ${apiToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Helper to generate mock parsed rows based on the uploaded file type
 const generateMockUploadedRecords = (_fileName: string, sourceType: ESGRecord['sourceType']): Array<Partial<ESGRecord>> => {
