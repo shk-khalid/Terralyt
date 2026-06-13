@@ -295,7 +295,7 @@ class UploadListCreateView(APIView):
         if not tenant:
             return Response({"error": "User does not belong to any tenant."}, status=status.HTTP_400_BAD_REQUEST)
         
-        uploads = DataSource.objects.filter(tenant=tenant)
+        uploads = DataSource.objects.filter(tenant=tenant).select_related('facility').prefetch_related('raw_records__emission_record')
         serializer = DataSourceSerializer(uploads, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

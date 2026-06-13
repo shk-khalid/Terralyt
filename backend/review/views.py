@@ -19,7 +19,7 @@ class ReviewPendingListView(APIView):
         queryset = EmissionRecord.objects.filter(
             tenant=tenant, 
             review_status=EmissionRecord.ReviewStatus.PENDING
-        )
+        ).select_related('facility', 'raw_record', 'raw_record__data_source')
 
         facility = request.query_params.get('facility')
         if facility:
@@ -52,7 +52,7 @@ class ReviewAnomalyListView(APIView):
         queryset = EmissionRecord.objects.filter(
             tenant=tenant, 
             anomaly_flag=True
-        )
+        ).select_related('facility', 'raw_record', 'raw_record__data_source')
 
         serializer = EmissionRecordSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

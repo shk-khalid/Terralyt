@@ -14,7 +14,7 @@ class AuditLogListView(APIView):
         if not tenant:
             return Response({"error": "User does not belong to any tenant."}, status=status.HTTP_400_BAD_REQUEST)
 
-        queryset = AuditLog.objects.filter(tenant=tenant)
+        queryset = AuditLog.objects.filter(tenant=tenant).select_related('acted_by', 'tenant', 'emission_record')
 
         # Filters
         action_type = request.query_params.get('action_type') or request.query_params.get('action')

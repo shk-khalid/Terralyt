@@ -32,29 +32,8 @@ class DataSourceSerializer(serializers.ModelSerializer):
         return "unknown"
 
     def get_file_size(self, obj):
-        """Return stored size or lazily fetch from Supabase bucket metadata and persist it."""
-        if obj.file_size is not None:
-            return obj.file_size
-        if not obj.file_url:
-            return None
-        try:
-            from ingestion.storage import SupabaseStorage
-            storage = SupabaseStorage()
-            # Derive the object path from the full URL:
-            # file_url looks like: https://<project>.supabase.co/storage/v1/object/uploads/uploads/file.csv
-            # The path within the bucket is the portion after "/object/<bucket_name>/"
-            bucket_prefix = f"/object/{storage.bucket_name}/"
-            if bucket_prefix in obj.file_url:
-                object_path = obj.file_url.split(bucket_prefix, 1)[1]
-            else:
-                return None
-            size = storage.get_file_size(object_path)
-            if size is not None:
-                obj.file_size = size
-                obj.save(update_fields=['file_size'])
-            return size
-        except Exception:
-            return None
+        """Return the stored file size directly to avoid blocking network calls in list views."""
+        return obj.file_size
 
     def get_facility(self, obj):
         if obj.facility:
@@ -65,14 +44,26 @@ class DataSourceSerializer(serializers.ModelSerializer):
         return None
 
     def get_processing_summary(self, obj):
-        raw_records = obj.raw_records.all()
-        total_rows = raw_records.count()
-        successful_rows = raw_records.filter(parse_status=RawRecord.ParseStatus.SUCCESS).count()
-        failed_rows = raw_records.filter(parse_status=RawRecord.ParseStatus.FAILED).count()
-        anomaly_rows = EmissionRecord.objects.filter(
-            raw_record__data_source=obj,
-            anomaly_flag=True
-        ).count()
+        # Calculate summary in memory using prefetched raw_records to prevent N+1 query loops
+        raw_records = list(obj.raw_records.all())
+        total_rows = len(raw_records)
+        successful_rows = 0
+        failed_rows = 0
+        anomaly_rows = 0
+
+        for r in raw_records:
+            if r.parse_status == RawRecord.ParseStatus.SUCCESS:
+                successful_rows += 1
+            elif r.parse_status == RawRecord.ParseStatus.FAILED:
+                failed_rows += 1
+            
+            # Safely check if a related emission_record exists and is flagged as an anomaly
+            try:
+                em_rec = getattr(r, 'emission_record', None)
+                if em_rec and em_rec.anomaly_flag:
+                    anomaly_rows += 1
+            except Exception:
+                pass
 
         duration = "1.2s"
         if obj.processing_time is not None:
